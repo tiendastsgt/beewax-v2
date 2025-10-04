@@ -2,10 +2,10 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY api/package.json api/package-lock.json ./
 RUN npm ci --only=production
 
-COPY . .
+COPY api/ ./
 
 RUN npm run build
 
