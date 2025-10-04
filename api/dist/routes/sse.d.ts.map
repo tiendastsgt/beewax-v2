@@ -1,0 +1,1 @@
+{"version":3,"file":"sse.d.ts","sourceRoot":"","sources":["../../src/routes/sse.ts"],"names":[],"mappings":"AAGA,QAAA,MAAM,MAAM,4CAAW,CAAC;AA6CxB,wBAAgB,aAAa,CAAC,MAAM,EAAE,MAAM,EAAE,SAAS,EAAE,MAAM,EAAE,IAAI,EAAE,GAAG,QAgBzE;AAGD,wBAAgB,YAAY,CAAC,SAAS,EAAE,MAAM,EAAE,IAAI,EAAE,GAAG,QAgBxD;AAED,eAAe,MAAM,CAAC"}

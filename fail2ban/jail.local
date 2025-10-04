@@ -1,0 +1,32 @@
+[DEFAULT]
+bantime = 10m
+findtime = 10m
+maxretry = 5
+
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+banaction = iptables-multiport
+
+[sshd-ddos]
+enabled = true
+port = ssh
+filter = sshd-ddos
+logpath = /var/log/auth.log
+banaction = iptables-multiport
+
+[nginx-http-auth]
+enabled = true
+port = http,https
+filter = nginx-http-auth
+logpath = /var/log/nginx/error.log
+
+[mosquitto]
+enabled = true
+port = 1883
+filter = mosquitto-auth
+logpath = /var/log/mosquitto/mosquitto.log
+maxretry = 3
+bantime = 600
