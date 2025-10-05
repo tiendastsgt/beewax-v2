@@ -12,4 +12,4 @@ COPY api/package.json api/package-lock.json ./
 RUN npm ci --only=production
 COPY --from=builder /app/dist ./dist
 EXPOSE 8080
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server.js"]
