@@ -1,10 +1,10 @@
 FROM nginx:alpine
 
 # Copy nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Copy site configurations
-COPY sites/ /etc/nginx/sites/
+COPY nginx/sites/ /etc/nginx/sites/
 
 # Create SSL directory
 RUN mkdir -p /etc/nginx/ssl
