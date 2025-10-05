@@ -3,7 +3,16 @@ import { MQTTMessage } from './types';
 import { broadcastMessage, sendToHive } from './websocket';
 import { broadcastSSE } from './routes/sse';
 
-const MQTT_BROKER_URL = process.env.MQTT_BROKER_URL || 'mqtt://mosquitto:1883';
+/**
+ * MQTT Broker Configuration
+ *
+ * Changed from using a single MQTT_BROKER_URL (e.g., 'mqtt://mosquitto:1883') to separate
+ * MQTT_BROKER_HOST and MQTT_BROKER_PORT to avoid DNS resolution issues where the full URL
+ * (including protocol) was being treated as the hostname. This ensures proper connection
+ * by passing host and port explicitly in the connection options.
+ */
+const MQTT_BROKER_HOST = process.env.MQTT_BROKER_HOST || 'beewax-mqtt';
+const MQTT_BROKER_PORT = parseInt(process.env.MQTT_BROKER_PORT || '1883');
 const MQTT_USERNAME = process.env.MQTT_USERNAME || '';
 const MQTT_PASSWORD = process.env.MQTT_PASSWORD || '';
 
@@ -11,7 +20,8 @@ let mqttClient: mqtt.MqttClient;
 
 export function setupMQTT() {
   const options: mqtt.IClientOptions = {
-    host: MQTT_BROKER_URL,
+    host: MQTT_BROKER_HOST,
+    port: MQTT_BROKER_PORT,
     username: MQTT_USERNAME,
     password: MQTT_PASSWORD,
     clientId: `colmena-api-${Date.now()}`,
@@ -19,7 +29,7 @@ export function setupMQTT() {
     reconnectPeriod: 5000,
   };
 
-  mqttClient = mqtt.connect(MQTT_BROKER_URL, options);
+  mqttClient = mqtt.connect(options);
 
   mqttClient.on('connect', () => {
     console.log('Connected to MQTT broker');
@@ -137,6 +147,6 @@ export function unsubscribeFromTopic(topic: string) {
 export function getMQTTStatus() {
   return {
     connected: mqttClient?.connected || false,
-    broker: MQTT_BROKER_URL,
+    broker: `${MQTT_BROKER_HOST}:${MQTT_BROKER_PORT}`,
   };
 }
