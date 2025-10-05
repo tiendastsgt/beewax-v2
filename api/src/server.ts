@@ -13,10 +13,11 @@ import systemRouter from './routes/system';
 import otaRouter from './routes/ota';
 import sseRouter from './routes/sse';
 
+const app = express();
+
 // Configurar trust proxy para rate limiting detrás de proxy
 app.set('trust proxy', 1);
 
-const app = express();
 const server = createServer(app);
 const wss = new WebSocketServer({ server, path: '/ws' });
 
