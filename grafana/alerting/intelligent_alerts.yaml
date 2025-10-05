@@ -1,0 +1,26 @@
+apiVersion: 1
+groups:
+- orgId: 1
+  name: intelligent-alerts
+  folder: 'BeeWax Monitoring'
+  interval: 15m
+  rules:
+  - uid: battery-low-intelligent
+    title: Low Battery Alert
+    condition: A
+    data:
+    - refId: A
+      datasourceUid: InfluxDB
+      queryType: flux
+      query: |
+        from(bucket: "telemetry")
+        |> range(start: -1h)
+        |> filter(fn:(r)=> r._measurement=="hive_telemetry" and r._field=="batt_v")
+        |> mean()
+        |> filter(fn: (r) => r._value < 3.5) # Umbral de voltaje bajo
+    for: 5m
+    annotations:
+      summary: "Hive ${hive} battery voltage is low."
+      description: "Battery voltage dropped below 3.5V."
+    labels:
+      severity: warning

@@ -1,0 +1,51 @@
+{
+"title": "Apiary Overview",
+"uid": "beewax-apiary",
+"timezone": "browser",
+"schemaVersion": 36,
+"version": 1,
+"templating": {
+"list": [
+{
+"name": "hive",
+"type": "query",
+"datasource": "InfluxDB",
+"query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"telemetry\", tag: \"hive_id\")",
+"refresh": 2
+}
+]
+},
+"panels": [
+{
+"type": "timeseries",
+"title": "Weight (kg)",
+"datasource": "InfluxDB",
+"targets": [
+{
+"query": "from(bucket:\"telemetry\" |> range(start: -24h) |> filter(fn:(r)=> r._measurement==\"hive_telemetry\" and r._field==\"weight_kg\" and (v: r.hive_id == v.hive))"
+}
+],
+"gridPos": {"x":0,"y":0,"w":12,"h":8}
+},
+{
+"type": "stat",
+"title": "Δ24h (g)",
+"targets": [
+{
+"query": "from(bucket:\"telemetry\" |> range(start: -30d) |> filter(fn:(r)=> r._measurement==\"hive_telemetry\" and r._field==\"d24h_g\" and (v: r.hive_id == v.hive)) |> last()"
+}
+],
+"gridPos": {"x":12,"y":0,"w":6,"h":4}
+},
+{
+"type": "table",
+"title": "Recent Alerts",
+"targets": [
+{
+"query": "from(bucket:\"telemetry\" |> range(start: -24h) |> filter(fn:(r)=> r._measurement==\"hive_anomalies\" and r.hive_id==v.hive) |> last()"
+}
+],
+"gridPos": {"x":0,"y":8,"w":16,"h":8}
+}
+]
+}

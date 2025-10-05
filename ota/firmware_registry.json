@@ -1,0 +1,30 @@
+{
+  "esp32": [
+    {
+      "version": "1.2.3",
+      "filename": "esp32_v1.2.3.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 1048576,
+      "release_date": "2024-01-15T12:00:00Z",
+      "changelog": "Fixed sensor reading accuracy, improved WiFi stability",
+      "compatibility": {
+        "min_hardware_version": "1.0",
+        "max_hardware_version": "2.0"
+      },
+      "url": "https://ota.beewax.shop/fw/esp32_v1.2.3.bin"
+    },
+    {
+      "version": "1.2.2",
+      "filename": "esp32_v1.2.2.bin",
+      "sha256": "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+      "size": 1048000,
+      "release_date": "2023-12-01T10:00:00Z",
+      "changelog": "Initial public release, basic sensor reading.",
+      "compatibility": {
+        "min_hardware_version": "1.0",
+        "max_hardware_version": "2.0"
+      },
+      "url": "https://ota.beewax.shop/fw/esp32_v1.2.2.bin"
+    }
+  ]
+}

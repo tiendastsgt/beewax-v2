@@ -1,0 +1,39 @@
+# BeeCount ROI Configuration
+# Per-hive stream and detection settings
+streams:
+- hive_id: H001
+  apiary_id: A01
+  url: rtsp://admin:password@192.168.1.50:554/stream1
+  roi: # [x, y, width, height]
+  line: { axis: "y", pos: 60 }
+  direction: { up_is_out: true }
+  min_area: 50
+  max_area: 2000
+  max_dist: 40
+  algo: opencv
+  active_hours: "06:00-18:00" # Guatemala daylight hours
+  fw_version: "1.2.3"
+
+- hive_id: H003
+  apiary_id: A01
+  url: rtsp://admin:password@192.168.1.52:554/stream1
+  roi:
+  line: { axis: "y", pos: 65 }
+  direction: { up_is_out: true }
+  min_area: 55
+  max_area: 2100
+  max_dist: 42
+  algo: yolo
+  active_hours: "05:30-18:30"
+
+- hive_id: H004
+  apiary_id: 0
+  url: http://esp32-cam-h004.local/stream
+  roi:
+  line: { axis: "y", pos: 62 }
+  direction: { up_is_out: true }
+  min_area: 48
+  max_area: 1900
+  max_dist: 38
+  algo: opencv
+  active_hours: "24/7"

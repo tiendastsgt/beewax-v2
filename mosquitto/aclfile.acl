@@ -1,0 +1,25 @@
+user api_service
+topic readwrite hives/+/commands
+topic read hives/+/telemetry
+topic read hives/+/beecount
+topic read hives/+/status
+user H001
+topic read hives/H001/commands
+topic write hives/H001/telemetry
+topic write hives/H001/status
+user H002
+topic read hives/H002/commands
+topic write hives/H002/telemetry
+topic write hives/H002/status
+user H003
+topic read hives/H003/commands
+topic write hives/H003/telemetry
+topic write hives/H003/status
+user H004
+topic read hives/H004/commands
+topic write hives/H004/telemetry
+topic write hives/H004/status
+user H005
+topic read hives/H005/commands
+topic write hives/H005/telemetry
+topic write hives/H005/status

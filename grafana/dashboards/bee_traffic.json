@@ -1,0 +1,40 @@
+{
+"title": "Bee Traffic Analysis",
+"uid": "bee-traffic",
+"timezone": "browser",
+"schemaVersion": 36,
+"version": 1,
+"panels": [
+    {
+      "title": "Net Traffic (Bees/min)",
+      "type": "timeseries",
+      "datasource": "InfluxDB",
+      "targets": [
+        {
+          "query": "from(bucket:\"telemetry\") |> range(start: v.timeRange) |> filter(fn: (r) => r._measurement == \"bee_count\" and r._field == \"bees_net_1m\")"
+        }
+      ],
+      "gridPos": {"x": 0, "y": 0, "w": 12, "h": 6}
+    },
+    {
+      "title": "Bees In vs Out",
+      "type": "timeseries",
+      "datasource": "InfluxDB",
+      "targets": [
+        { "query": "from(bucket:\"telemetry\") |> range(start: v.timeRange) |> filter(fn: (r) => r._measurement == \"bee_count\" and r._field == \"bees_in_1m\")", "legend": "In" },
+        { "query": "from(bucket:\"telemetry\") |> range(start: v.timeRange) |> filter(fn: (r) => r._measurement == \"bee_count\" and r._field == \"bees_out_1m\")", "legend": "Out" }
+      ],
+      "gridPos": {"x": 12, "y": 0, "w": 12, "h": 6}
+    },
+    {
+        "title": "Processing Performance (FPS & CPU)",
+        "type": "timeseries",
+        "datasource": "InfluxDB",
+        "targets": [
+          { "query": "from(bucket:\"telemetry\") |> range(start: v.timeRange) |> filter(fn: (r) => r._measurement == \"bee_count\" and r._field == \"fps\")", "legend": "FPS" },
+          { "query": "from(bucket:\"telemetry\") |> range(start: v.timeRange) |> filter(fn: (r) => r._measurement == \"bee_count\" and r._field == \"cpu_pct\")", "legend": "CPU %" }
+        ],
+        "gridPos": {"x": 0, "y": 6, "w": 24, "h": 6}
+    }
+  ]
+}

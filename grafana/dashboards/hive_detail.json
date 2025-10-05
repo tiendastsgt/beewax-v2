@@ -1,0 +1,42 @@
+{
+"title": "Hive Detail: $hive",
+"uid": "beewax-hive-detail",
+"timezone": "browser",
+"schemaVersion": 36,
+"version": 1,
+"panels": [
+    {
+      "title": "Internal Temperature (°C)",
+      "type": "timeseries",
+      "datasource": "InfluxDB",
+      "targets": [
+        {
+          "query": "from(bucket:\"telemetry\") |> range(start: v.timeRange) |> filter(fn: (r) => r._measurement == \"hive_telemetry\" and r._field == \"t_in_c\" and r.hive_id == \"${hive}\")"
+        }
+      ],
+      "gridPos": {"x": 0, "y": 0, "w": 12, "h": 6}
+    },
+    {
+      "title": "Acoustic Activity (200-400 Hz)",
+      "type": "timeseries",
+      "datasource": "InfluxDB",
+      "targets": [
+        {
+          "query": "from(bucket:\"telemetry\") |> range(start: v.timeRange) |> filter(fn: (r) => r._measurement == \"hive_telemetry\" and r._field == \"audio_200_400\" and r.hive_id == \"${hive}\")"
+        }
+      ],
+      "gridPos": {"x": 12, "y": 0, "w": 12, "h": 6}
+    },
+    {
+      "title": "CO2 (PPM) and Battery (V)",
+      "type": "timeseries",
+      "datasource": "InfluxDB",
+      "targets": [
+        {
+          "query": "from(bucket:\"telemetry\") |> range(start: v.timeRange) |> filter(fn: (r) => r._measurement == \"hive_telemetry\" and (r._field == \"co2_ppm\" or r._field == \"batt_v\") and r.hive_id == \"${hive}\")"
+        }
+      ],
+      "gridPos": {"x": 0, "y": 6, "w": 24, "h": 8}
+    }
+  ]
+}

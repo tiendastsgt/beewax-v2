@@ -1,0 +1,31 @@
+{
+"title": "Colony Strength Score",
+"uid": "colony-strength",
+"timezone": "browser",
+"schemaVersion": 36,
+"version": 1,
+"panels": [
+    {
+      "title": "Strength Score (0-100)",
+      "type": "gauge",
+      "datasource": "InfluxDB",
+      "targets": [
+        {
+          "query": "from(bucket:\"telemetry\") |> range(start: -7d) |> filter(fn: (r) => r._measurement == \"business_metrics\" and r._field == \"colony_strength_score\") |> last()"
+        }
+      ],
+      "gridPos": {"x": 0, "y": 0, "w": 6, "h": 8}
+    },
+    {
+      "title": "Harvest Prediction (Days to 40kg)",
+      "type": "stat",
+      "datasource": "InfluxDB",
+      "targets": [
+        {
+          "query": "from(bucket:\"telemetry\") |> range(start: -7d) |> filter(fn: (r) => r._measurement == \"hive_predictions\" and r._field == \"days_to_harvest\") |> last()"
+        }
+      ],
+      "gridPos": {"x": 6, "y": 0, "w": 6, "h": 8}
+    }
+  ]
+}

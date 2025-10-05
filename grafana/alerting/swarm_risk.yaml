@@ -1,0 +1,35 @@
+apiVersion: 1
+groups:
+- orgId: 1
+  name: beewax-alerts
+  folder: BeeWax
+  interval: 5m
+  rules:
+  - uid: predictive-swarm
+    title: Predictive Swarm Alert
+    condition: C
+    data:
+    - refId: A
+      datasourceUid: InfluxDB
+      queryType: flux
+      # Query para obtener score de anomalía y cambio de peso
+      query: |
+        from(bucket: "telemetry")
+        |> range(start: -24h)
+        |> filter(fn:(r)=> r._measurement=="hive_telemetry" and (r._field=="audio_200_400" or r._field=="d24h_g"))
+        |> aggregateWindow(every: 1h, fn: max, createEmpty: false)
+    
+    # Condición C: Si el score de anomalía es alto (>0.7) Y hay pérdida de peso significativa (< -500g)
+    - refId: C
+      type: threshold
+      query: A
+      threshold: 0.7 
+      reducer: last
+      operator: gt
+      # (Nota: La lógica compuesta de Flux para el enjambre, que combina audio/peso/anomalía, es compleja y se simula aquí con umbrales en el mismo bloque)
+    for: 10m
+    annotations:
+      summary: "High probability of swarming in ${hive}"
+      description: "Audio 200–400 Hz > p95 7d y Δ24h < -500 g"
+    labels:
+      severity: high

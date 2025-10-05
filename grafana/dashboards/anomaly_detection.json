@@ -1,0 +1,31 @@
+{
+"title": "Anomaly Detection Summary",
+"uid": "anomaly-detection",
+"timezone": "browser",
+"schemaVersion": 36,
+"version": 1,
+"panels": [
+    {
+      "title": "Anomaly Score Time Series",
+      "type": "timeseries",
+      "datasource": "InfluxDB",
+      "targets": [
+        {
+          "query": "from(bucket:\"telemetry\") |> range(start: v.timeRange) |> filter(fn: (r) => r._measurement == \"hive_ensemble_anomalies\" and r._field == \"anomaly_score\")"
+        }
+      ],
+      "gridPos": {"x": 0, "y": 0, "w": 24, "h": 8}
+    },
+    {
+      "title": "Recent Anomalies (Table)",
+      "type": "table",
+      "datasource": "InfluxDB",
+      "targets": [
+        {
+          "query": "from(bucket:\"telemetry\") |> range(start: -24h) |> filter(fn: (r) => r._measurement == \"hive_ensemble_anomalies\") |> sort(columns: [\"_time\"], desc: true)"
+        }
+      ],
+      "gridPos": {"x": 0, "y": 8, "w": 24, "h": 8}
+    }
+  ]
+}

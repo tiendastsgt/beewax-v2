@@ -1,0 +1,108 @@
+[
+  {
+    "id": "e4f8d29a.1a4d04",
+    "type": "tab",
+    "label": "BeeWax Automation Flows",
+    "disabled": false,
+    "info": "Flujos para automatización, reintentos de comandos MQTT y webhooks de alerta."
+  },
+  {
+    "id": "a9b3c4d5.e6f7g8",
+    "type": "mqtt in",
+    "z": "e4f8d29a.1a4d04",
+    "name": "Telemetry In (hives/+/telemetry)",
+    "topic": "hives/+/telemetry",
+    "qos": "1",
+    "datatype": "json",
+    "broker": "default_mqtt_broker",
+    "x": 100,
+    "y": 100,
+    "wires": [
+      [
+        "c8b2a1d0.f9e8g7"
+      ]
+    ]
+  },
+  {
+    "id": "c8b2a1d0.f9e8g7",
+    "type": "debug",
+    "z": "e4f8d29a.1a4d04",
+    "name": "Debug Telemetry",
+    "toside": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 300,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "f5e1d2c3.b4a5c6",
+    "type": "http in",
+    "z": "e4f8d29a.1a4d04",
+    "name": "Grafana Alert Webhook (/alerts/grafana)",
+    "url": "/alerts/grafana",
+    "method": "post",
+    "upload": false,
+    "x": 140,
+    "y": 200,
+    "wires": [
+      [
+        "a1b2c3d4.e5f6g7"
+      ]
+    ]
+  },
+  {
+    "id": "a1b2c3d4.e5f6g7",
+    "type": "function",
+    "z": "e4f8d29a.1a4d04",
+    "name": "Process Grafana Alert",
+    "func": "/* Lógica para parsear la alerta de Grafana y determinar acción (ej. enviar a Slack, Telegram o reintentar comando) */\n\nconst alert = msg.payload;\n\nif (alert.state === 'alerting' && alert.ruleName.includes('Swarm')) {\n    msg.payload = {\n        text: `ALERTA CRÍTICA: Riesgo de enjambrazón en ${alert.evalMatches.tags.hive_id}. Estado: ${alert.state}.`\n    };\n    return msg;\n}\nreturn null;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 390,
+    "y": 200,
+    "wires": [
+      [
+        "b3c4d5e6.f7g8h9"
+      ]
+    ]
+  },
+  {
+    "id": "b3c4d5e6.f7g8h9",
+    "type": "debug",
+    "z": "e4f8d29a.1a4d04",
+    "name": "Send Notification",
+    "toside": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 600,
+    "y": 200,
+    "wires": []
+  },
+  {
+    "id": "default_mqtt_broker",
+    "type": "mqtt-broker",
+    "name": "Mosquitto",
+    "broker": "mosquitto",
+    "port": "1883",
+    "clientid": "",
+    "autoConnect": true,
+    "cleanSession": true,
+    "birthTopic": "",
+    "closeTopic": "",
+    "willTopic": "",
+    "birthQos": "0",
+    "closeQos": "0",
+    "willQos": "0",
+    "birthRetain": "false",
+    "closeRetain": "false",
+    "willRetain": "false",
+    "sessionExpiry": ""
+  }
+]
